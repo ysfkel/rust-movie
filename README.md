@@ -2,7 +2,7 @@
 
 Hey there!
 
-Not so long ago we decided create a catalogue of our favorite movies (./src/db.json) as json. It is hard to find things there, so we would like to build an algorithm to make it easier.
+Not so long ago we decided to create a catalogue of our favorite movies (./src/db.json) as json. It is hard to find things there, so we would like to build an algorithm to make it easier.
 
 ## Before start
 1. Please remove `.git` folder and initialize your own repository using this repository as a starting point
@@ -16,7 +16,7 @@ Not so long ago we decided create a catalogue of our favorite movies (./src/db.j
 
   * If we provide an empty list, then we should get a single random movie. (return type should be a array with single movie)
 
-2. The algorithm needs to as efficient as possible, so please also provide its time complexity using "Big O" notation with some explanation how you've calculated it. 
+2. The algorithm needs to be as efficient as possible, so please also provide its time complexity using "Big O" notation with some explanation how you've calculated it. 
 
 To make it easier we've also provided a set of tests to make sure your solution works as expected. You can find them in `./tests/movies.rs`. To run them use:
 ```bash
