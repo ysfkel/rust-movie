@@ -18,7 +18,7 @@ pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
     }
 
     let lookup = get_genres(genres); // creates a hashmap for genre
-    let mut filtered_movies: Vec<(types::Movie, u32)> = Vec::new(); // use to hold our final result
+    let mut filtered_movies: Vec<types::Movie> = Vec::new(); // use to hold our final result
     let mut index = 0; // each time we match a genre ,
 
     // loop through movies and add movies that match provided genres to the filtered_movies vec
@@ -28,10 +28,9 @@ pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
             if lookup.contains_key(g) == false {
                 break;
             } else {
-                genre_match_count += 1;
                 // if we have compared all the genres of this movie, we add the movie to filtered_movies
                 if i == m.genres.len() - 1 {
-                    add_movie(index, genre_match_count, m, &mut filtered_movies);
+                    filtered_movies.insert(index, m.clone());
                     index += 1;
                 }
             }
@@ -39,28 +38,9 @@ pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
     }
 
     // sort filtered movies in descending order by the count of genre
-    filtered_movies.sort_by(|x, y| y.1.cmp(&x.1));
+    filtered_movies.sort_by(|x, y| y.genres.len().cmp(&x.genres.len()));
 
-    // Map movie Vec<(Movie, u32)> to Vec<Movie>
-    let result = filtered_movies
-        .into_iter()
-        .map(|x| x.0)
-        .collect::<Vec<Movie>>();
-
-    result
-}
-
-fn add_movie(
-    index: usize,
-    count: u32,
-    movie: &Movie,
-    filtered_movies: &mut Vec<(types::Movie, u32)>,
-) {
-    if let Some((mv, c)) = filtered_movies.get_mut(index) {
-        *c += 1;
-    } else {
-        filtered_movies.insert(index, (movie.clone(), count));
-    }
+    filtered_movies
 }
 
 fn get_movies() -> Vec<types::Movie> {
