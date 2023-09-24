@@ -1,3 +1,8 @@
+use serde;
+use serde_derive::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+// #[serde(rename_all = "camelCase")]
 pub struct Movie {
     pub id: u32,
     pub title: String,
@@ -7,7 +12,14 @@ pub struct Movie {
     pub director: String,
     pub actors: String,
     pub plot: String,
+    #[serde(alias = "posterUrl")]
     pub poster_url: String,
 }
 
 pub type Genre = String;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MoviesData {
+    pub genres: Vec<Genre>,
+    pub movies: Vec<Movie>,
+}
