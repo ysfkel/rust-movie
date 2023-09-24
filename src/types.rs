@@ -2,7 +2,6 @@ use serde;
 use serde_derive::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-// #[serde(rename_all = "camelCase")]
 pub struct Movie {
     pub id: u32,
     pub title: String,

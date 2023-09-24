@@ -1,20 +1,35 @@
 mod types;
-use rand::prelude::*;
 use serde;
 use std::collections::HashMap;
 use std::{fs, io};
 pub use types::{Genre, Movie, MoviesData};
+use std::time::{SystemTime, UNIX_EPOCH};
+
+/**
+ * The time complexity of the functions are 
+ * 1. get_filtered_movies - The overall time complexity of get_filtered_movies is O(n * m) where n the number of movies and 
+ *    g is the average number of genres per movie . The other operations (explained below)have lower time complexity 
+ * 2. get_movies - Reads movies json data from disk: The time complexity to read the json file is O(n)
+ *   where is the size of the json file.
+ * 3. get_genres - creates a hashmap of movie genres . The time complexity is O(g) where g is the number of genres
+ * 4. filtered_movies the sort function used to sort the filtered_movies vec has a time complexity of O(n * log(n))
+ *    where k is the number of elements in the vector.
+ * 5. get_random_index - generates a random number based on the current system time
+ *     has a time complexity of O(1) because it involves basic arithmetic operations 
+ */
 
 pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
     let movies = get_movies();
 
+    if movies.len() == 0 {
+       return vec![];
+    }
+
     // select random movie if genre is empty
     if genres.len() == 0 {
-        if let Some(m) = movies.iter().choose(&mut thread_rng()) {
-            return vec![m.clone()];
-        } else {
-            return vec![];
-        }
+      let random_index = get_random_index(movies.len());
+       return vec![movies[random_index].clone()];
+       
     }
 
     let lookup = get_genres(genres); // creates a hashmap for genre
@@ -58,4 +73,17 @@ fn get_genres(genres: Vec<String>) -> HashMap<String, bool> {
         _genres.insert(i.clone(), true);
     }
     _genres
+}
+
+fn get_random_index(vector_length: usize) -> usize {
+  // Get the current system time since the Unix epoch
+  let timestamp = SystemTime::now()
+      .duration_since(UNIX_EPOCH)
+      .expect("Time went backwards")
+      .as_nanos() as u64;
+
+  // Use the timestamp to calculate a random index within the vector's bounds
+  let random_index = (timestamp % vector_length as u64) as usize;
+
+  random_index
 }
