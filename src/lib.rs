@@ -52,7 +52,7 @@ pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
         }
     }
 
-    // sort filtered movies in descending order by the count of genre
+    // sort filtered movies in descending order by the length of genres 
     filtered_movies.sort_by(|x, y| y.genres.len().cmp(&x.genres.len()));
 
     filtered_movies
