@@ -1,7 +1,7 @@
 mod types;
 use std::collections::HashMap;
-use std::time::{SystemTime, UNIX_EPOCH};
 use std::fs;
+use std::time::{SystemTime, UNIX_EPOCH};
 pub use types::{Genre, Movie, MoviesData};
 
 /**
@@ -32,13 +32,14 @@ pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
 
     let lookup = get_genres(genres); // creates a hashmap for genre
     let mut filtered_movies: Vec<types::Movie> = Vec::new(); // use to hold our final result
-    // loop through movies and add movies that match provided genres to the filtered_movies vec
+                                                             // loop through movies and add movies that match provided genres to the filtered_movies vec
     for m in movies.iter() {
         for (i, g) in m.genres.iter().enumerate() {
             if lookup.contains_key(g) == false {
                 break;
-            } else if i == m.genres.len() - 1 { // if we have compared all the genres of this movie, we add the movie to filtered_movies
-              filtered_movies.push( m.clone()); 
+            } else if i == m.genres.len() - 1 {
+                // if we have compared all the genres of this movie, we add the movie to filtered_movies
+                filtered_movies.push(m.clone());
             }
         }
     }
@@ -50,7 +51,7 @@ pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
 }
 
 fn get_movies() -> Vec<types::Movie> {
-    let  movies_data: MoviesData = {
+    let movies_data: MoviesData = {
         let data = fs::read_to_string("src/db.json").expect("error reading file");
         serde_json::from_str(&data).unwrap()
     };
