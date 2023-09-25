@@ -32,16 +32,13 @@ pub fn get_filtered_movies(genres: Vec<types::Genre>) -> Vec<types::Movie> {
 
     let lookup = get_genres(genres); // creates a hashmap for genre
     let mut filtered_movies: Vec<types::Movie> = Vec::new(); // use to hold our final result
-    let mut index = 0; // each time we match a genre ,
-
     // loop through movies and add movies that match provided genres to the filtered_movies vec
     for m in movies.iter() {
         for (i, g) in m.genres.iter().enumerate() {
             if lookup.contains_key(g) == false {
                 break;
             } else if i == m.genres.len() - 1 { // if we have compared all the genres of this movie, we add the movie to filtered_movies
-                filtered_movies.insert(index, m.clone());
-                index += 1;
+              filtered_movies.push( m.clone()); 
             }
         }
     }
